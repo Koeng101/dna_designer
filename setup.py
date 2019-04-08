@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="dna_designer",
-    version="0.0.5",
+    version="0.1.0",
     author="Keoni Gandall",
     author_email="koeng101@gmail.com",
     description="A package that assists in designing DNA",

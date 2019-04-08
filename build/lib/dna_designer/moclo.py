@@ -1,7 +1,6 @@
 import numpy
 import time
 import pandas as pd
-from synbiolib import codon
 from Bio.Seq import Seq
 from Bio.Alphabet import generic_dna
 from Bio.SeqUtils import MeltingTemp as mt
@@ -12,6 +11,9 @@ import unittest
 import collections
 from numpy.random import choice,randint
 import logging
+
+from .codon import optimize_protein,default_table
+from . import codon
 
 ## =======
 ## Logging
@@ -522,27 +524,22 @@ def fragment_sequence(gene_id,seq,part_type,cloning_enzyme_prefix="GAAGACTT",clo
 ## ==============
 ## /\/\/\/\/\/\/\
 
-def sequence_input(gene_id,seq,part_type):
-    success = True
+def fix_cds(gene_id,seq):
     seq = seq.upper()
-    part_type = part_type.lower() 
-    # Check cds for proper format. If it's alright, fix it 
-    if part_type == 'cds':
-        try:
-            cds_checker(gene_id,seq)
-        except Exception as e:
-            print("{} failed on {}".format(gene_id,e))
-            return "FAILED"
-        seq = fix_sequence(gene_id,seq)
-
-    # Check all seqs for bad elements
+    try:
+        cds_check(gene_id,seq)
+    except Exception as e:
+        print("{} failed on {}".format(gene_id,e))
+        return 'FAILED'
+    seq = fix_sequence(gene_id,seq)
     try:
         input_checker(gene_id,seq)
     except Exception as e:
         print('{} failed on {}'.format(gene_id,e))
         return "FAILED"
 
-    # Fragment sequence
-    frags = fragment_sequence(gene_id,seq,part_type)
-    print("{} successfully checked and ready to submit".format(gene_id))
-    return frags
+    print("{} successfully checked".format(gene_id))
+    return seq
+
+def optimize_fix(gene_id,aa):
+    return fix_cds(gene_id, optimize_protein(aa))

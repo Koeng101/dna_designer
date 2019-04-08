@@ -1,0 +1,18 @@
+DEBUG:dna_designer.codon:Loading codon table from /home/koeng/gits/dna_designer/dna_designer/data/codon_usage.spsum.
+DEBUG:dna_designer.codon:Loaded custom_1 freqB
+DEBUG:dna_designer.codon:Loading codon table from /home/koeng/gits/dna_designer/dna_designer/data/codon_usage.spsum.
+DEBUG:dna_designer.codon:Loaded custom_1 freqB
+DEBUG:dna_designer.codon:Loading codon table from /home/koeng/gits/dna_designer/dna_designer/data/codon_usage.spsum.
+DEBUG:dna_designer.codon:Loaded custom_1 freqB
+DEBUG:dna_designer.moclo:Found BsaI at location 150
+DEBUG:dna_designer.moclo:Fixing cutsites in jcvi_syn3.0A
+DEBUG:dna_designer.moclo:ACC -> ACG at position 153
+
+DEBUG:dna_designer.moclo:Found BsmBI at location 150
+DEBUG:dna_designer.moclo:Fixing cutsites in jcvi_syn3.0A
+DEBUG:dna_designer.moclo:ACG -> ACT at position 153
+
+DEBUG:dna_designer.codon:Loading codon table from /home/koeng/gits/dna_designer/dna_designer/data/codon_usage.spsum.
+DEBUG:dna_designer.codon:Loaded custom_1 freqB
+DEBUG:dna_designer.codon:Loading codon table from /home/koeng/gits/dna_designer/dna_designer/data/codon_usage.spsum.
+DEBUG:dna_designer.codon:Loaded custom_1 freqB
