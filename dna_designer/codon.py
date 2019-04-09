@@ -98,6 +98,7 @@ def optimize_protein(protein_seq,table=default_table):
 
 
 
+
 if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG)
     import IPython; IPython.embed()

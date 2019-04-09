@@ -19,9 +19,9 @@ from . import codon
 ## Logging
 ## =======
 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
-logging.basicConfig(filename='moclopy.log',level=logging.DEBUG)
+#logger = logging.getLogger(__name__)
+#logger.setLevel(logging.DEBUG)
+#logging.basicConfig(filename='moclopy.log',level=logging.DEBUG)
 
 
 ## ==========
@@ -73,11 +73,11 @@ FG_part_types = {
             "prefix" : "GGTCTCNA",
             "suffix" : "AGAGCTTNGAGACC"
             },
-        "eukaryotic_promoter" : {
+        "full_promoter" : {
             "prefix" : "GGTCTCNGGAG",
             "suffix" : "AATGNGAGACC"
             },
-        "prokaryotic_promoter" : {
+        "promoter" : {
             "prefix" : "GGTCTCNGGAG",
             "suffix" : "TACTNGAGACC"
             },
@@ -89,22 +89,6 @@ FG_part_types = {
             "prefix" : "GGTCTCNGCTT",
             "suffix" : "CGCTNGAGACC"
             },
-        "operon" : { 
-            "prefix" : "GGTCTCNGGAG",
-            "suffix" : "CGCTNGAGACC"
-            },
-        "cds_aari" : {
-            "prefix" : "CACCTGCNNNNGGAG",
-            "suffix" : "CGCTNNNNGCAGGTG"
-            },
-        "cds_operon" : {
-            "prefix" : "GGTCTCNA",
-            "suffix" : "AGAGCTTNGAGACC"
-            },
-        "rp_selection" : {
-            "prefix": "CACCTGCNNNNGGAG",
-            "suffix": "CGCTNNNNGCAGGTG"
-            }
         }
 
 ### Fixer parameters
@@ -301,7 +285,7 @@ def cds_check(gene_id,seq):
             raise ValueError("{} failed on {}".format(gene_id, test.__name__))
     return "Clear"
 
-def input_checker(gene_id,seq):
+def input_checker(gene_id,seq,re=True):
     seq = seq.upper()
     if "A"*9 in seq:
         raise ValueError('{} failed on long "A" homopolymer'.format(gene_id))
@@ -311,17 +295,18 @@ def input_checker(gene_id,seq):
         raise ValueError('{} failed on long "G" homopolymer'.format(gene_id))
     elif "C"*9 in seq:
         raise ValueError('{} failed on long "C" homopolymer'.format(gene_id))
-    elif "GGTCTC" in seq or "GAGACC" in seq:
-        print(seq)
-        raise ValueError('{} failed on has_bsaI'.format(gene_id))
-    elif "GAAGAC" in seq or "GTCTTC" in seq:
-        raise ValueError('{} failed on has_bbsI'.format(gene_id))
+    elif re == True:
+        if "GGTCTC" in seq or "GAGACC" in seq:
+            raise ValueError('{} failed on has_bsaI'.format(gene_id))
+        elif "GAAGAC" in seq or "GTCTTC" in seq:
+            raise ValueError('{} failed on has_bbsI'.format(gene_id))
     elif len(seq) < 300:
         raise ValueError('{} failed on small sequence (<300bp)'.format(gene_id))
     elif len(seq) > 5000:
         raise ValueError('{} failed on large sequence (>5000bp)'.format(gene_id))
+
     else:
-        return "Clear"
+        return "fg_checked"
 
 ## ===============
 ## Recode sequence
@@ -524,22 +509,19 @@ def fragment_sequence(gene_id,seq,part_type,cloning_enzyme_prefix="GAAGACTT",clo
 ## ==============
 ## /\/\/\/\/\/\/\
 
-def fix_cds(gene_id,seq):
+def fix_cds(seq,gene_id='gene'):
     seq = seq.upper()
     try:
         cds_check(gene_id,seq)
     except Exception as e:
-        print("{} failed on {}".format(gene_id,e))
-        return 'FAILED'
+        return {'message': e}
     seq = fix_sequence(gene_id,seq)
     try:
         input_checker(gene_id,seq)
     except Exception as e:
-        print('{} failed on {}'.format(gene_id,e))
-        return "FAILED"
-
+        return {'message': e}
     print("{} successfully checked".format(gene_id))
     return seq
 
-def optimize_fix(gene_id,aa):
-    return fix_cds(gene_id, optimize_protein(aa))
+def optimize_fix(aa):
+    return fix_cds(optimize_protein(aa))
