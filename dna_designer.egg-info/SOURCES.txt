@@ -1,3 +1,4 @@
+MANIFEST.in
 README.md
 setup.py
 dna_designer/__init__.py
@@ -10,3 +11,7 @@ dna_designer.egg-info/PKG-INFO
 dna_designer.egg-info/SOURCES.txt
 dna_designer.egg-info/dependency_links.txt
 dna_designer.egg-info/top_level.txt
+dna_designer/data/codon_usage.spsum
+dna_designer/data/custom_table.spsum
+dna_designer/data/frequency_example.csv
+dna_designer/data/frequencycsv_to_spsum_generator.py
