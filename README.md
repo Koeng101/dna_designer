@@ -1,6 +1,6 @@
-# dna_designer
+# dna_designer [DEPRECIATED]
 
-This is the DNA designer package, made by Keoni Gandall originally to help design DNA for the FreeGenes project.
+This is the DNA designer package, made by Keoni Gandall originally to help design DNA for the FreeGenes project. Note: this project is being depreciated, and work is being moved to [Poly](https://github.com/TimothyStiles/poly).
 
 ## Usage
 
